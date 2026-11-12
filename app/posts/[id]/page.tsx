@@ -1,3 +1,4 @@
+import { getPostById } from "@/utils/common";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
@@ -7,10 +8,6 @@ type PostPageProps = {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
-async function getPost(id: string) {
-    const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`);
-    return await response.json();
-}
 
 function isEmptyJson(obj: unknown) {
     return obj && Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -19,7 +16,7 @@ function isEmptyJson(obj: unknown) {
 async function PostDetails({ params, searchParams }: PostPageProps) {
     const { id } = await params;
 
-    const postDetails = await getPost(id);
+    const postDetails = await getPostById(id);
     if (isEmptyJson(postDetails)) {
         notFound();
     }
@@ -32,10 +29,10 @@ async function PostDetails({ params, searchParams }: PostPageProps) {
         return (
             <article className="py-16" style={{ color: colour }}>
                 <h1 className="mt-4 text-center text-4xl font-bold tracking-tight capitalize">
-                    {postDetails.title}
+                    {postDetails!.title}
                 </h1>
                 <p className="mt-8 text-lg leading-relaxed text-neutral-700">
-                    {postDetails.body}
+                    {postDetails!.body}
                 </p>
             </article>
         );

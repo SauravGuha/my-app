@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   experimental: {
     agentFeedback: true,
   },
+  serverExternalPackages: ["mssql", "tedious", "@azure/identity", "@prisma/adapter-mssql"],
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {

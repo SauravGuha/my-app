@@ -1,4 +1,5 @@
-import { updateTag } from "next/cache";
+
+import { prisma } from "./prisma";
 
 
 export function isEmptyJson(obj: unknown) {
@@ -7,17 +8,33 @@ export function isEmptyJson(obj: unknown) {
 
 export async function createPost({ title, body }
     : { title: string, body: string }) {
-    const response = await fetch("https://jsonplaceholder.typicode.com/posts",
-        {
-            method: "POST",
-            body: JSON.stringify({
-                title,
-                body,
-                userId: 2
-            }),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            }
-        });
-    updateTag("posts");
+    const response = await prisma.post.create({
+        data: {
+            body: body,
+            title: title,
+            userId: 1
+        }
+    });
+    return response;
+    // const response = await fetch("https://jsonplaceholder.typicode.com/posts",
+    //     {
+    //         method: "POST",
+    //         body: JSON.stringify({
+    //             title,
+    //             body,
+    //             userId: 2
+    //         }),
+    //         headers: {
+    //             'Content-type': 'application/json; charset=UTF-8',
+    //         }
+    //     });
+}
+
+export async function getPostById(id: string) {
+    const response = await prisma.post.findFirst({
+        where: {
+            id: Number.parseInt(id)
+        }
+    });
+    return response;
 }
