@@ -1,3 +1,5 @@
+import { upVotePostAction } from "@/actions/post";
+import VoteButton from "@/components/voteButton";
 import { getPostById } from "@/utils/common";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -34,6 +36,12 @@ async function PostDetails({ params, searchParams }: PostPageProps) {
                 <p className="mt-8 text-lg leading-relaxed text-neutral-700">
                     {postDetails!.body}
                 </p>
+                <div className="mt-8 flex items-center gap-4">
+                    <span className="text-sm font-medium text-neutral-500">Votes</span>
+                    <span className="text-2xl font-bold">{postDetails!.votes}</span>
+                    <VoteButton id={postDetails!.id} name="Upvote" />
+                    <VoteButton id={postDetails!.id} name="Downvote" />
+                </div>
             </article>
         );
     }

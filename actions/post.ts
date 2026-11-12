@@ -1,7 +1,7 @@
 "use server"
 
-import { createPost } from "@/utils/common";
-import { cacheLife, cacheTag, updateTag } from "next/cache";
+import { createPost, upVotePost } from "@/utils/common";
+import { cacheLife, cacheTag, revalidatePath, updateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/utils/prisma";
 
@@ -23,4 +23,9 @@ export async function createPostAction(formData: FormData) {
         updateTag("posts");
         redirect("/posts");
     }
+}
+
+export async function upVotePostAction(id: number) {
+    await upVotePost(id);
+    revalidatePath(`/posts/${id}`);
 }

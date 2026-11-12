@@ -38,3 +38,18 @@ export async function getPostById(id: string) {
     });
     return response;
 }
+
+export async function upVotePost(id: number) {
+    const response = await prisma.post
+        .update({
+            where: {
+                id: id
+            },
+            data: {
+                votes: {
+                    increment: 1
+                }
+            }
+        });
+    return response;
+}
