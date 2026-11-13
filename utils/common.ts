@@ -53,3 +53,18 @@ export async function upVotePost(id: number) {
         });
     return response;
 }
+
+export async function downVotePost(id: number) {
+    const response = await prisma.post
+        .update({
+            where: {
+                id: id
+            },
+            data: {
+                votes: {
+                    decrement: 1
+                }
+            }
+        });
+    return response;
+}
