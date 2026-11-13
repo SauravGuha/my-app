@@ -2,6 +2,7 @@ import { upVotePostAction } from "@/actions/post";
 import VoteButton from "@/components/voteButton";
 import { getPostById } from "@/utils/common";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { Suspense } from "react";
 
 
@@ -16,6 +17,7 @@ function isEmptyJson(obj: unknown) {
 }
 
 async function PostDetails({ params, searchParams }: PostPageProps) {
+    await connection();
     const { id } = await params;
 
     const postDetails = await getPostById(id);

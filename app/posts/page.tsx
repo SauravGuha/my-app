@@ -1,9 +1,11 @@
 
 import { getPosts } from "@/actions/post";
 import Link from "next/link";
+import { connection } from "next/server";
 import { Suspense } from "react";
 
 async function PostList() {
+    await connection();
     const posts = await getPosts();
     return (<ul className="mt-12 divide-y divide-neutral-200">
         {posts.map((post: { id: number; title: string; body: string }) => (
